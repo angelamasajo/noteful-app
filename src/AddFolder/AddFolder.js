@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import ApiContext from '../ApiContext'
+import ApiContext from '../ApiContext';
+import config from '../config'
 
 class AddFolder extends Component {
   static contextType = ApiContext;
@@ -13,9 +14,37 @@ class AddFolder extends Component {
   }
   
   handleSubmit = (e) => {
-    console.log('lalala')
+    console.log('handleSubmit running')
     e.preventDefault();
-    this.context.addFolder(this.state.folderName);
+    // this.context.addFolder(this.state.folderName);
+
+    const newFolder = {name: this.state.folderName}
+
+    fetch(`${config.API_ENDPOINT}/folders`, {
+      method: 'POST',
+      body: JSON.stringify({
+        name: newFolder
+      }),
+      headers: {
+        'content-type': 'application/json',
+      }
+    })
+      .then(res => {
+        if (!res.ok) {
+          return res.json().then(error => {
+            throw error
+          })
+        }
+        return res.json()
+      })
+      .then(data => {
+        this.context.addFolder(data)
+        this.props.history.push('/')
+        // console.log(data)
+      })
+      .catch(error => {
+        this.setState({error})
+      })
   
   }
 

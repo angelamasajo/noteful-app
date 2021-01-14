@@ -49,9 +49,9 @@ class App extends Component {
   //do this for homework - POST
   handleAddFolder = (folderName) => {
     console.log(folderName)
-    this.setState({
-      folders: [...this.state.folders, folderName],
-    })
+    // this.setState({
+    //   folders: [...this.state.folders, folderName],
+    // })
   }
 
   renderNavRoutes() {
