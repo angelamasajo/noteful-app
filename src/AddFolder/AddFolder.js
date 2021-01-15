@@ -22,9 +22,7 @@ class AddFolder extends Component {
 
     fetch(`${config.API_ENDPOINT}/folders`, {
       method: 'POST',
-      body: JSON.stringify({
-        name: newFolder
-      }),
+      body: JSON.stringify(newFolder),
       headers: {
         'content-type': 'application/json',
       }
