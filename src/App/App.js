@@ -1,5 +1,3 @@
-//updating context 
-
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -39,19 +37,29 @@ class App extends Component {
       });
   }
 
+  fetchFolders = () => {
+    fetch(`${config.API_ENDPOINT}/folders`)
+      .then(data => {
+        if (!data.ok) {
+          throw new Error("Something went wrong")
+        }
+        return data.json()
+      })
+      .then(data => {
+        console.log(data, 'angela')
+        this.setState({folders: data})
+      })
+  }
+
   handleDeleteNote = noteId => {
     this.setState({
       notes: this.state.notes.filter(note => note.id !== noteId)
     });
   };
 
-
-  //do this for homework - POST
-  handleAddFolder = (folderName) => {
-    console.log(folderName)
-    // this.setState({
-    //   folders: [...this.state.folders, folderName],
-    // })
+  handleAddFolder = () => {
+    console.log("handleAddFolder running")
+    this.fetchFolders()
   }
 
   renderNavRoutes() {
@@ -65,8 +73,11 @@ class App extends Component {
             component={NoteListNav}
           />
         ))}
+        {/* note page */}
         <Route path="/note/:noteId" component={NotePageNav} />
+        {/* add folder page */}
         <Route path="/add-folder" component={NotePageNav} />
+        {/* add note page */}
         <Route path="/add-note" component={NotePageNav} />
       </>
     );

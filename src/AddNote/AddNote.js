@@ -2,23 +2,28 @@ import React, { Component } from 'react';
 import ApiContext from '../ApiContext';
 import config from '../config'
 
-class AddFolder extends Component {
+class AddNote extends Component {
   static contextType = ApiContext;
 
   state = {
-    folderName: '',
+    noteName: '',
+    content: '',
+    selectedFolder: ''
   }
   
-  handleChange = (e) => {
-    this.setState({folderName: e.target.value})
+  handleChangeTitle = (e) => {
+    this.setState({noteName: e.target.value, content: e.target.value})
   }
+
+  handleChangeContent
+
+  handleSelectedFolder
   
   handleSubmit = (e) => {
     console.log('handleSubmit running')
     e.preventDefault();
-    // this.context.addFolder(this.state.folderName);
 
-    const newFolder = {name: this.state.folderName}
+    const newNote = {name: this.state.NoteName}
 
     fetch(`${config.API_ENDPOINT}/folders`, {
       method: 'POST',
@@ -36,9 +41,9 @@ class AddFolder extends Component {
         return res.json()
       })
       .then(data => {
-        this.context.addFolder()
+        this.context.addFolder(data)
         this.props.history.push('/')
-        console.log(data, 'lol')
+        // console.log(data)
       })
       .catch(error => {
         this.setState({error})
@@ -49,13 +54,16 @@ class AddFolder extends Component {
   render() {
     console.log(this.context)
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label htmlFor='folder-name'>Folder Name</label>
-        <input id='folder-name' onChange={this.handleChange}></input>
+      <form onChange={this.whatever1}>
+        <label htmlFor='note-title'>Note Title</label>
+        <input id='note-title' onChange={this.handleChangeTitle}></input>
+        <label htmlFor='note-content'>Write your notes here</label>
+        <input id='note-content' onChange={this.whatever3}></input>
         <button type='submit'>Add Folder</button>
+        
       </form>
     )
   }
 }
 
-export default AddFolder;
+export default AddNote;
