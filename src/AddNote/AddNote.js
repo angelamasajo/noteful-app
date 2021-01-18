@@ -1,68 +1,92 @@
-import React, { Component } from 'react';
-import ApiContext from '../ApiContext';
-import config from '../config'
+import React, { Component } from "react";
+import ApiContext from "../ApiContext";
+import config from "../config";
 
 class AddNote extends Component {
   static contextType = ApiContext;
 
   state = {
-    noteName: '',
-    content: '',
-    selectedFolder: ''
-  }
-  
+    noteName: "",
+    content: "",
+    selectedFolder: "",
+  };
+
   handleChangeTitle = (e) => {
-    this.setState({noteName: e.target.value, content: e.target.value})
-  }
+    this.setState({ noteName: e.target.value });
+  };
 
-  handleChangeContent
+  handleChangeContent = (e) => {
+    this.setState({ content: e.target.value });
+  };
 
-  handleSelectedFolder
-  
+  handleSelectedFolder = (e) => {
+    this.setState({ selectedFolder: e.target.value });
+  };
+
   handleSubmit = (e) => {
-    console.log('handleSubmit running')
+    console.log("handleSubmit running");
     e.preventDefault();
 
-    const newNote = {name: this.state.NoteName}
+		const newTitle = { name: this.state.noteName };
+		const newContent = { name: this.state.content };
+		const newSelectedFolder = { name: this.state.selectedFolder};
 
     fetch(`${config.API_ENDPOINT}/folders`, {
-      method: 'POST',
-      body: JSON.stringify(newFolder),
+      method: "POST",
+      body: JSON.stringify(newTitle, newContent, newSelectedFolder),
       headers: {
-        'content-type': 'application/json',
-      }
+        "content-type": "application/json",
+      },
     })
-      .then(res => {
+      .then((res) => {
         if (!res.ok) {
-          return res.json().then(error => {
-            throw error
-          })
+          return res.json().then((error) => {
+            throw error;
+          });
         }
-        return res.json()
+        return res.json();
       })
-      .then(data => {
-        this.context.addFolder(data)
-        this.props.history.push('/')
+      .then((data) => {
+        this.context.addNote(data);
+        this.props.history.push("/");
         // console.log(data)
       })
-      .catch(error => {
-        this.setState({error})
-      })
-  
-  }
+      .catch((error) => {
+        this.setState({ error });
+      });
+  };
 
   render() {
-    console.log(this.context)
+    console.log(this.context);
     return (
-      <form onChange={this.whatever1}>
-        <label htmlFor='note-title'>Note Title</label>
-        <input id='note-title' onChange={this.handleChangeTitle}></input>
-        <label htmlFor='note-content'>Write your notes here</label>
-        <input id='note-content' onChange={this.whatever3}></input>
-        <button type='submit'>Add Folder</button>
-        
+      <form onChange={this.handleSubmit}>
+				<label htmlFor="note-title">Note Title</label>
+				<input id="note-title" onChange={this.handleChangeTitle}></input>
+
+				{/* change this later */}
+				<br />
+
+        <label htmlFor="note-content">Write your notes here</label>
+        <input id="note-content" onChange={this.handleChangeContent}></input>
+
+				{/* change this later */}
+				<br />
+
+        <label>Select a Folder</label>
+				<select htmlFor="selected-folder" onChange={this.handleSelectedFolder}>
+					<option>option1</option>
+					<option>option2</option>
+          {/* {this.context.map((folder) => (
+            <option>{folder.id}</option>
+          ))} */}
+        </select>
+
+				{/* change this later */}
+				<br />
+
+        <button type="submit">Add Note</button>
       </form>
-    )
+    );
   }
 }
 
