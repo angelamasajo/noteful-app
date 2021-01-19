@@ -38,7 +38,7 @@ class AddFolder extends Component {
       .then(data => {
         this.context.addFolder()
         this.props.history.push('/')
-        console.log(data, 'lol')
+        console.log(data, 'adding this folder!')
       })
       .catch(error => {
         this.setState({error})
@@ -51,7 +51,7 @@ class AddFolder extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor='folder-name'>Folder Name</label>
-        <input id='folder-name' onChange={this.handleChange}></input>
+        <input id='folder-name' onChange={this.handleChange} required></input>
         <button type='submit'>Add Folder</button>
       </form>
     )

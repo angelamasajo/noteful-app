@@ -28,12 +28,12 @@ class AddNote extends Component {
     e.preventDefault();
 
 		const newTitle = { name: this.state.noteName };
-		const newContent = { name: this.state.content };
-		const newSelectedFolder = { name: this.state.selectedFolder};
+		const newContent = { content: this.state.content };
+		const newSelectedFolder = { folderId: this.state.selectedFolder};
 
-    fetch(`${config.API_ENDPOINT}/folders`, {
+    fetch(`${config.API_ENDPOINT}/notes`, {
       method: "POST",
-      body: JSON.stringify(newTitle, newContent, newSelectedFolder),
+      body: JSON.stringify({ newTitle, newContent, newSelectedFolder, modified: new Date }),
       headers: {
         "content-type": "application/json",
       },
@@ -48,8 +48,8 @@ class AddNote extends Component {
       })
       .then((data) => {
         this.context.addNote(data);
-        this.props.history.push("/");
-        // console.log(data)
+        // this.props.history.push("/");
+        console.log(data)
       })
       .catch((error) => {
         this.setState({ error });
@@ -57,28 +57,27 @@ class AddNote extends Component {
   };
 
   render() {
-    console.log(this.context);
+		console.log(this.context);
+		const folderOptions = this.context.folders.map(folder => <option value={folder.id}>{folder.name}</option>)
     return (
       <form onChange={this.handleSubmit}>
+				
 				<label htmlFor="note-title">Note Title</label>
-				<input id="note-title" onChange={this.handleChangeTitle}></input>
+				<input id="note-title" onChange={this.handleChangeTitle} required></input>
 
 				{/* change this later */}
 				<br />
 
         <label htmlFor="note-content">Write your notes here</label>
-        <input id="note-content" onChange={this.handleChangeContent}></input>
+        <input id="note-content" onChange={this.handleChangeContent} required></input>
 
 				{/* change this later */}
 				<br />
 
         <label>Select a Folder</label>
-				<select htmlFor="selected-folder" onChange={this.handleSelectedFolder}>
-					<option>option1</option>
-					<option>option2</option>
-          {/* {this.context.map((folder) => (
-            <option>{folder.id}</option>
-          ))} */}
+				<select htmlFor="selected-folder" onChange={this.handleSelectedFolder} required>
+				<option value='0'>Select a folder</option>
+					{folderOptions}
         </select>
 
 				{/* change this later */}

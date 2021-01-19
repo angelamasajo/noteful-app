@@ -65,6 +65,25 @@ class App extends Component {
     this.fetchFolders()
   }
 
+  fetchNotes = () => {
+    fetch(`${config.API_ENDPOINT}/notes`)
+      .then(data => {
+        if (!data.ok) {
+          throw new Error('Something went wrong')
+        }
+        return data.json()
+      })
+      .then(data => {
+        console.log(data, 'this is the notes data')
+        this.setState({notes: data})
+      })
+  }
+
+  handleAddNote = () => {
+    console.log('handleAddNote running')
+    this.fetchNotes()
+  }
+
   renderNavRoutes() {
     return (
       <>
@@ -97,9 +116,10 @@ class App extends Component {
             component={NoteListMain}
           />
         ))}
+
+        {/* these render the right side of the notes page, add folder page, and add note page */}
         <Route path="/note/:noteId" component={NotePageMain} />
         <Route path="/add-folder" component={AddFolder} />
-        
         <Route path="/add-note" component={AddNote} />
 
       </>
@@ -111,7 +131,9 @@ class App extends Component {
       notes: this.state.notes,
       folders: this.state.folders,
       deleteNote: this.handleDeleteNote,
-      addFolder: this.handleAddFolder
+      addFolder: this.handleAddFolder,
+      addNote: this.handleAddNote
+      
     };
     console.log(this.state.folders, 'angela')
     return (
