@@ -24,16 +24,21 @@ class AddNote extends Component {
   };
 
   handleSubmit = (e) => {
-    console.log("handleSubmit running");
     e.preventDefault();
 
+		const postBody = {
+			name: this.state.noteName,
+			content: this.state.content,
+			folderId: this.state.selectedFolder,
+			modified: new Date()
+		}
 		const newTitle = { name: this.state.noteName };
 		const newContent = { content: this.state.content };
 		const newSelectedFolder = { folderId: this.state.selectedFolder};
 
     fetch(`${config.API_ENDPOINT}/notes`, {
       method: "POST",
-      body: JSON.stringify({ newTitle, newContent, newSelectedFolder, modified: new Date }),
+      body: JSON.stringify( postBody ),
       headers: {
         "content-type": "application/json",
       },
@@ -48,8 +53,7 @@ class AddNote extends Component {
       })
       .then((data) => {
         this.context.addNote(data);
-        // this.props.history.push("/");
-        console.log(data)
+        this.props.history.push("/");
       })
       .catch((error) => {
         this.setState({ error });
@@ -57,10 +61,9 @@ class AddNote extends Component {
   };
 
   render() {
-		console.log(this.context);
-		const folderOptions = this.context.folders.map(folder => <option value={folder.id}>{folder.name}</option>)
+		const folderOptions = this.context.folders.map(folder => <option key={folder.id} value={folder.id}>{folder.name}</option>)
     return (
-      <form onChange={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
 				
 				<label htmlFor="note-title">Note Title</label>
 				<input id="note-title" onChange={this.handleChangeTitle} required></input>
