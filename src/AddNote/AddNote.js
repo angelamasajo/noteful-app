@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import ApiContext from '../ApiContext'
 import config from '../config'
 import PropTypes from 'prop-types'
+import './AddNote.css'
 
 class AddNote extends Component {
   static contextType = ApiContext;
@@ -64,24 +65,27 @@ class AddNote extends Component {
       <form onSubmit={this.handleSubmit}>
 
         <label htmlFor="note-title">Note Title</label>
+        <br />
         <input id="note-title" onChange={this.handleChangeTitle} required></input>
 
-        {/* change this later */}
+        <br />
         <br />
 
         <label htmlFor="note-content">Write your notes here</label>
+        <br />
         <input id="note-content" onChange={this.handleChangeContent} required></input>
 
-        {/* change this later */}
+        <br />
         <br />
 
         <label>Select a Folder</label>
+        <br />
         <select htmlFor="selected-folder" onChange={this.handleSelectedFolder} required>
           <option value='0'>Select a folder</option>
           {folderOptions}
         </select>
 
-        {/* change this later */}
+        <br />
         <br />
 
         <button type="submit">Add Note</button>

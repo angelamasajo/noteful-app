@@ -1,0 +1,24 @@
+form {
+  background-color: #102541;
+  height: 100%;
+  padding: 30px;
+  width: 100%; 
+}
+  
+label {
+  color: white;
+  line-height: 20px;
+}
+
+input {
+  color: #102541;
+}
+
+#note-content {
+  height: 100px; 
+  width: 70%;
+}
+
+select {
+  padding: 5px 20px;
+}
