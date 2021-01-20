@@ -10,6 +10,7 @@ import AddNote from '../AddNote/AddNote';
 import ApiContext from '../ApiContext';
 import config from '../config';
 import './App.css';
+import ErrorBoundary from '../ErrorBoundary';
 
 class App extends Component {
   state = {
@@ -47,7 +48,6 @@ class App extends Component {
         return data.json()
       })
       .then(data => {
-        console.log(data, 'angela')
         this.setState({folders: data})
       })
   }
@@ -61,7 +61,6 @@ class App extends Component {
   };
 
   handleAddFolder = () => {
-    console.log("handleAddFolder running")
     this.fetchFolders()
   }
 
@@ -74,19 +73,17 @@ class App extends Component {
         return data.json()
       })
       .then(data => {
-        console.log(data, 'this is the notes data')
         this.setState({notes: data})
       })
   }
 
   handleAddNote = () => {
-    console.log('handleAddNote running')
     this.fetchNotes()
   }
 
   renderNavRoutes() {
     return (
-      <>
+      <ErrorBoundary>
         {['/', '/folder/:folderId'].map(path => (
           <Route
             exact
@@ -101,13 +98,13 @@ class App extends Component {
         <Route path="/add-folder" component={NotePageNav} />
         {/* add note page */}
         <Route path="/add-note" component={NotePageNav} />
-      </>
+      </ErrorBoundary>
     );
   }
 
   renderMainRoutes() {
     return (
-      <>
+      <ErrorBoundary>
         {['/', '/folder/:folderId'].map(path => (
           <Route
             exact
@@ -122,7 +119,7 @@ class App extends Component {
         <Route path="/add-folder" component={AddFolder} />
         <Route path="/add-note" component={AddNote} />
 
-      </>
+      </ErrorBoundary>
     );
   }
 
@@ -135,7 +132,6 @@ class App extends Component {
       addNote: this.handleAddNote
       
     };
-    console.log(this.state.folders, 'angela')
     return (
       <ApiContext.Provider value={value}>
         <div className="App">
