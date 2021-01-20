@@ -1,9 +1,10 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import CircleButton from '../CircleButton/CircleButton'
 import ApiContext from '../ApiContext'
-import { findNote, findFolder } from '../notes-helpers'
+import {findNote, findFolder} from '../notes-helpers'
 import './NotePageNav.css'
+import PropTypes from 'prop-types'
 
 export default class NotePageNav extends React.Component {
   static defaultProps = {
@@ -14,14 +15,14 @@ export default class NotePageNav extends React.Component {
       params: {}
     }
   }
+
   static contextType = ApiContext;
 
-  render() {
-    const { notes, folders, } = this.context
-    const { noteId } = this.props.match.params
+  render () {
+    const {notes, folders} = this.context
+    const {noteId} = this.props.match.params
     const note = findNote(notes, noteId) || {}
     const folder = findFolder(folders, note.folderId)
-
 
     return (
       <div className='NotePageNav'>
@@ -33,8 +34,8 @@ export default class NotePageNav extends React.Component {
         >
           <FontAwesomeIcon icon='chevron-left' />
           <br />
-        Back
-      </CircleButton>
+          Back
+        </CircleButton>
         {folder && (
           <h3 className='NotePageNav__folder-name'>
             {folder.name}
@@ -49,4 +50,9 @@ NotePageNav.defaultProps = {
   history: {
     goBack: () => { }
   }
+}
+
+NotePageNav.propTypes = {
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 }

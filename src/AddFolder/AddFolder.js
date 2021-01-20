@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import ApiContext from '../ApiContext';
+import React, {Component} from 'react'
+import ApiContext from '../ApiContext'
 import config from '../config'
+import PropTypes from 'prop-types'
 
 class AddFolder extends Component {
   static contextType = ApiContext;
 
   state = {
-    folderName: '',
+    folderName: ''
   }
-  
+
   handleChange = (e) => {
     this.setState({folderName: e.target.value})
   }
-  
+
   handleSubmit = (e) => {
-    console.log('handleSubmit running')
-    e.preventDefault();
+    e.preventDefault()
     // this.context.addFolder(this.state.folderName);
 
     const newFolder = {name: this.state.folderName}
@@ -24,7 +24,7 @@ class AddFolder extends Component {
       method: 'POST',
       body: JSON.stringify(newFolder),
       headers: {
-        'content-type': 'application/json',
+        'content-type': 'application/json'
       }
     })
       .then(res => {
@@ -38,16 +38,13 @@ class AddFolder extends Component {
       .then(data => {
         this.context.addFolder()
         this.props.history.push('/')
-        console.log(data, 'adding this folder!')
       })
       .catch(error => {
         this.setState({error})
       })
-  
   }
 
-  render() {
-    console.log(this.context)
+  render () {
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor='folder-name'>Folder Name</label>
@@ -58,4 +55,8 @@ class AddFolder extends Component {
   }
 }
 
-export default AddFolder;
+AddFolder.propTypes = {
+  history: PropTypes.object.isRequired
+}
+
+export default AddFolder

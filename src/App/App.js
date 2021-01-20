@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import NoteListNav from '../NoteListNav/NoteListNav';
-import NotePageNav from '../NotePageNav/NotePageNav';
-import NoteListMain from '../NoteListMain/NoteListMain';
-import NotePageMain from '../NotePageMain/NotePageMain';
-import AddFolder from '../AddFolder/AddFolder';
-import AddNote from '../AddNote/AddNote';
-import ApiContext from '../ApiContext';
-import config from '../config';
-import './App.css';
-import ErrorBoundary from '../ErrorBoundary';
+import React, {Component} from 'react'
+import {Route, Link} from 'react-router-dom'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import NoteListNav from '../NoteListNav/NoteListNav'
+import NotePageNav from '../NotePageNav/NotePageNav'
+import NoteListMain from '../NoteListMain/NoteListMain'
+import NotePageMain from '../NotePageMain/NotePageMain'
+import AddFolder from '../AddFolder/AddFolder'
+import AddNote from '../AddNote/AddNote'
+import ApiContext from '../ApiContext'
+import config from '../config'
+import './App.css'
+import ErrorBoundary from '../ErrorBoundary'
 
 class App extends Component {
   state = {
@@ -18,32 +18,30 @@ class App extends Component {
     folders: []
   };
 
-  componentDidMount() {
+  componentDidMount () {
     Promise.all([
       fetch(`${config.API_ENDPOINT}/notes`),
       fetch(`${config.API_ENDPOINT}/folders`)
     ])
       .then(([notesRes, foldersRes]) => {
-        if (!notesRes.ok)
-          return notesRes.json().then(e => Promise.reject(e));
-        if (!foldersRes.ok)
-          return foldersRes.json().then(e => Promise.reject(e));
+        if (!notesRes.ok) { return notesRes.json().then(e => Promise.reject(e)) }
+        if (!foldersRes.ok) { return foldersRes.json().then(e => Promise.reject(e)) }
 
-        return Promise.all([notesRes.json(), foldersRes.json()]);
+        return Promise.all([notesRes.json(), foldersRes.json()])
       })
       .then(([notes, folders]) => {
-        this.setState({ notes, folders });
+        this.setState({notes, folders})
       })
       .catch(error => {
-        console.error({ error });
-      });
+        console.error({error}) // eslint-disable-line
+      })
   }
 
   fetchFolders = () => {
     fetch(`${config.API_ENDPOINT}/folders`)
       .then(data => {
         if (!data.ok) {
-          throw new Error("Something went wrong")
+          throw new Error('Something went wrong')
         }
         return data.json()
       })
@@ -52,12 +50,10 @@ class App extends Component {
       })
   }
 
-
-
   handleDeleteNote = noteId => {
     this.setState({
       notes: this.state.notes.filter(note => note.id !== noteId)
-    });
+    })
   };
 
   handleAddFolder = () => {
@@ -81,7 +77,7 @@ class App extends Component {
     this.fetchNotes()
   }
 
-  renderNavRoutes() {
+  renderNavRoutes () {
     return (
       <ErrorBoundary>
         {['/', '/folder/:folderId'].map(path => (
@@ -99,10 +95,10 @@ class App extends Component {
         {/* add note page */}
         <Route path="/add-note" component={NotePageNav} />
       </ErrorBoundary>
-    );
+    )
   }
 
-  renderMainRoutes() {
+  renderMainRoutes () {
     return (
       <ErrorBoundary>
         {['/', '/folder/:folderId'].map(path => (
@@ -120,18 +116,18 @@ class App extends Component {
         <Route path="/add-note" component={AddNote} />
 
       </ErrorBoundary>
-    );
+    )
   }
 
-  render() {
+  render () {
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
       deleteNote: this.handleDeleteNote,
       addFolder: this.handleAddFolder,
       addNote: this.handleAddNote
-      
-    };
+
+    }
     return (
       <ApiContext.Provider value={value}>
         <div className="App">
@@ -145,8 +141,8 @@ class App extends Component {
           <main className="App__main">{this.renderMainRoutes()}</main>
         </div>
       </ApiContext.Provider>
-    );
+    )
   }
 }
 
-export default App;
+export default App

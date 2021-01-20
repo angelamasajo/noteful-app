@@ -1,14 +1,14 @@
 // with context
 
-
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {Link} from 'react-router-dom'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import Note from '../Note/Note'
 import CircleButton from '../CircleButton/CircleButton'
 import ApiContext from '../ApiContext'
-import { getNotesForFolder } from '../notes-helpers'
+import {getNotesForFolder} from '../notes-helpers'
 import './NoteListMain.css'
+import PropTypes from 'prop-types'
 
 export default class NoteListMain extends React.Component {
   static defaultProps = {
@@ -16,11 +16,12 @@ export default class NoteListMain extends React.Component {
       params: {}
     }
   }
+
   static contextType = ApiContext
 
-  render() {
-    const { folderId } = this.props.match.params
-    const { notes=[] } = this.context
+  render () {
+    const {folderId} = this.props.match.params
+    const {notes = []} = this.context
     const notesForFolder = getNotesForFolder(notes, folderId)
     return (
       <section className='NoteListMain'>
@@ -50,4 +51,8 @@ export default class NoteListMain extends React.Component {
       </section>
     )
   }
+}
+
+NoteListMain.propTypes = {
+  match: PropTypes.object.isRequired
 }
