@@ -17,7 +17,6 @@ class AddFolder extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    // this.context.addFolder(this.state.folderName);
 
     const newFolder = {name: this.state.folderName}
 
