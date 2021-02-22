@@ -9,7 +9,7 @@ class AddNote extends Component {
 
   state = {
     noteName: '',
-    content: '',
+    description: '',
     selectedFolder: ''
   };
 
@@ -17,8 +17,8 @@ class AddNote extends Component {
     this.setState({noteName: e.target.value})
   };
 
-  handleChangeContent = (e) => {
-    this.setState({content: e.target.value})
+  handleChangeDescription = (e) => {
+    this.setState({description: e.target.value})
   };
 
   handleSelectedFolder = (e) => {
@@ -30,7 +30,7 @@ class AddNote extends Component {
 
     const postBody = {
       name: this.state.noteName,
-      content: this.state.content,
+      description: this.state.description,
       folderId: this.state.selectedFolder,
       modified: new Date()
     }
@@ -71,9 +71,9 @@ class AddNote extends Component {
         <br />
         <br />
 
-        <label htmlFor="note-content">Write your notes here</label>
+        <label htmlFor="note-description">Write your notes here</label>
         <br />
-        <input id="note-content" onChange={this.handleChangeContent} required></input>
+        <input id="note-description" onChange={this.handleChangeDescription} required></input>
 
         <br />
         <br />

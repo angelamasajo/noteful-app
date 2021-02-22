@@ -8,6 +8,7 @@ import {BrowserRouter} from 'react-router-dom'
 // import 'typeface-roboto'
 import './index.css'
 import App from './App/App'
+// import Practice from './Practice'
 
 library.add(faPlus, faChevronLeft, faTrashAlt, faCheckDouble)
 

@@ -80,14 +80,19 @@ class App extends Component {
   renderNavRoutes () {
     return (
       <ErrorBoundary>
-        {['/', '/folder/:folderId'].map(path => (
-          <Route
-            exact
-            key={path}
-            path={path}
-            component={NoteListNav}
-          />
-        ))}
+        <Route
+          exact
+          key={'/'}
+          path={'/'}
+          component={NoteListNav}
+        />
+        <Route
+          exact
+          key={'/folder/:folderId'}
+          path={'/folder/:folderId'}
+          component={NoteListNav}
+        />
+
         {/* note page */}
         <Route path="/note/:noteId" component={NotePageNav} />
         {/* add folder page */}
@@ -101,14 +106,18 @@ class App extends Component {
   renderMainRoutes () {
     return (
       <ErrorBoundary>
-        {['/', '/folder/:folderId'].map(path => (
-          <Route
-            exact
-            key={path}
-            path={path}
-            component={NoteListMain}
-          />
-        ))}
+        <Route
+          exact
+          key={'/'}
+          path={'/'}
+          component={NoteListMain}
+        />
+        <Route
+          exact
+          key={'/folder/:folderId'}
+          path={'/folder/:folderId'}
+          component={NoteListMain}
+        />
 
         {/* these render the right side of the notes page, add folder page, and add note page */}
         <Route path="/note/:noteId" component={NotePageMain} />
@@ -131,14 +140,18 @@ class App extends Component {
     return (
       <ApiContext.Provider value={value}>
         <div className="App">
+
           <nav className="App__nav">{this.renderNavRoutes()}</nav>
+
           <header className="App__header">
             <h1>
               <Link to="/">Noteful</Link>{' '}
               <FontAwesomeIcon icon="check-double" />
             </h1>
           </header>
+
           <main className="App__main">{this.renderMainRoutes()}</main>
+
         </div>
       </ApiContext.Provider>
     )
